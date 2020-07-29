@@ -1,5 +1,8 @@
 package com.cjnet;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -27,6 +30,7 @@ public class CompodActionsTest {
 	private AndroidDriver<MobileElement> androidDriver;
 	private String output;
 
+	@BeforeMethod
 	@BeforeTest
 	public void setUp() throws MalformedURLException{
 		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
@@ -39,6 +43,7 @@ public class CompodActionsTest {
 		androidDriver = new AndroidDriver<>(remoteUrl, desiredCapabilities);
 	}
 
+	@AfterMethod
 	@AfterTest
 	public void tearDown() {
 		androidDriver.quit();
