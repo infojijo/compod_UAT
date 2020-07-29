@@ -57,9 +57,9 @@ public class CompodActionsTest {
 		try {
 			waitCommon();
 			androidDriver.findElementByXPath("//android.widget.ImageButton[@content-desc=\"Open navigation drawer\"]").click();
-			waitCommon();
+			Thread.sleep(3000);
 			androidDriver.findElementById("com.cjnet.news:id/text_google").click();
-			waitCommon();
+			Thread.sleep(3000);
 			androidDriver.findElementById("com.google.android.gms:id/account_name").click();
 			Thread.sleep(3000);
 			androidDriver.navigate().back();
@@ -90,35 +90,13 @@ public class CompodActionsTest {
 			assert afterclicked.equals("MARKED AS READ") : " MARKED, SUCCESS : " + first + "Expected : MARKED AS READ";
 
 			System.out.println("PRINTING THE RESULT");
-			waitCommon();}
+			Thread.sleep(3000);
+			
+		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-
-	}
-
-	@Test(priority = 2)
-	public void loginAndMarking() throws InterruptedException {
-		waitCommon();
-		androidDriver.navigate().back();
-		androidDriver.navigate().back();
-
-		waitCommon();
-
-		List<MobileElement> gridItems =  androidDriver.findElementsById("com.cjnet.news:id/imgGrid");
-		waitCommon();
-		System.out.println("items here->"+gridItems.size());
-		gridItems.get(0).click();	
-		waitCommon();
-		androidDriver.findElementById("com.cjnet.news:id/textTitle").click();
-		waitCommon();
-		androidDriver.findElementById("com.cjnet.news:id/textMore").click();
-		waitCommon();
-		androidDriver.findElementById("com.cjnet.news:id/btn_mark_as_read").click();
-		waitCommon();
-		System.out.println("PRINTING THE RESULT");
-		waitCommon();
 
 	}
 	public void waitCommon() {
