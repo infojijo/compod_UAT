@@ -1,20 +1,10 @@
 package com.cjnet;
 
-import org.testng.annotations.AfterMethod;
+
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
-
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,73 +15,48 @@ import java.util.concurrent.TimeUnit;
 /*
  */
 
-public class CompodActionsTest {
+public class CompodActionsTest extends BaseConfiguraion{
 
-	private AndroidDriver<MobileElement> androidDriver;
-	private String output;
-
-	@BeforeMethod
-	@BeforeTest
-	public void setUp() throws MalformedURLException{
-		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-		desiredCapabilities.setCapability(CapabilityType.PLATFORM_NAME, "Android");
-		desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 600);
-		desiredCapabilities.setCapability("autoGrantPermissions", true);
-		desiredCapabilities.setCapability("appPackage", "com.cjnet.news");
-		desiredCapabilities.setCapability("appActivity","com.cjnet.news.MainActivity");
-		URL remoteUrl = new URL("http://localhost:4723/wd/hub");
-		androidDriver = new AndroidDriver<>(remoteUrl, desiredCapabilities);
-	}
-
-	@AfterMethod
-	@AfterTest
-	public void tearDown() {
-		androidDriver.quit();
-	}
-
-
+private String MARK = "MARK";
+private String MARKED = "MARKED AS READ";
 
 	@Test(priority = 1)
 	public void checkAlreadyMarked() throws InterruptedException {
 
 		try {
-			waitCommon();
-			androidDriver.findElementByXPath("//android.widget.ImageButton[@content-desc=\"Open navigation drawer\"]").click();
-			Thread.sleep(3000);
-			androidDriver.findElementById("com.cjnet.news:id/text_google").click();
-			Thread.sleep(3000);
-			androidDriver.findElementById("com.google.android.gms:id/account_name").click();
-			Thread.sleep(3000);
-			androidDriver.navigate().back();
-			Thread.sleep(3000);
 
-			List<MobileElement> gridItems =  androidDriver.findElementsById("com.cjnet.news:id/imgGrid");
+			waitExcplicit(2,"//android.widget.ImageButton[@content-desc=\"Open navigation drawer\"]");
+			actionClick(2, "//android.widget.ImageButton[@content-desc=\"Open navigation drawer\"]");
+			waitExcplicit(1, "com.cjnet.news:id/text_google");
+			actionClick(1, "com.cjnet.news:id/text_google");
+			waitExcplicit(1, "com.google.android.gms:id/account_name");
+			actionClick(1, "com.google.android.gms:id/account_name");
 			Thread.sleep(3000);
+			androidDriver.navigate().back();	
+			waitExcplicit(1,"com.cjnet.news:id/imgGrid");
+			List<MobileElement> gridItems =  androidDriver.findElementsById("com.cjnet.news:id/imgGrid");
+			waitExcplicit(1,"com.cjnet.news:id/imgGrid");
 			System.out.println("items here->"+gridItems.size());
 			gridItems.get(2).click();	
-			waitCommon();
-			androidDriver.findElementById("com.cjnet.news:id/textTitle").click();
-			waitCommon();
+			waitExcplicit(1, "com.cjnet.news:id/textTitle");
+			actionClick(1, "com.cjnet.news:id/textTitle");
+			waitExcplicit(1, "com.cjnet.news:id/btn_mark_as_read");
 			String first = androidDriver.findElementById("com.cjnet.news:id/btn_mark_as_read").getText();
 			System.out.println(first);
-			waitCommon();
 
-			if (first.equals( "MARK"))
-			{
-				androidDriver.findElementById("com.cjnet.news:id/btn_mark_as_read").click();
-				waitCommon();
-
+			if (first.equals(MARK)){
+				actionClick(1, "com.cjnet.news:id/btn_mark_as_read");
 			}
 			else {
 				System.out.println("Already Marked as Read");
 			}
+			waitExcplicit(1, "com.cjnet.news:id/btn_mark_as_read");
 			String afterclicked = androidDriver.findElementById("com.cjnet.news:id/btn_mark_as_read").getText();
-
-			assert afterclicked.equals("MARKED AS READ") : " MARKED, SUCCESS : " + first + "Expected : MARKED AS READ";
-
+			assert afterclicked.equals(MARKED) : " MARKED, SUCCESS : " + first + "Expected : MARKED AS READ";
+			androidDriver.navigate().back();
+			androidDriver.navigate().back();
 			System.out.println("PRINTING THE RESULT");
-			Thread.sleep(3000);
-			
+
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -99,10 +64,32 @@ public class CompodActionsTest {
 		}
 
 	}
-	public void waitCommon() {
 
-		androidDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+	public void waitExcplicit(int method, String path) {
+		switch(method){
+		case 1:{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(path))); 
+			break; 
+		}
+		case 2:{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(path))); 
+			break;
+			}
+		}
 	}
 
+	public void actionClick(int type, String path) {
+		switch(type) {
+		case 1: {
+			androidDriver.findElementById(path).click();
+			break;
+		}
+		case 2:{
+			androidDriver.findElementByXPath(path).click();
+			break;
+			}
+		}
+	}
 
 }
