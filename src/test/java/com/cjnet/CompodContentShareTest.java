@@ -1,5 +1,6 @@
 package com.cjnet;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
@@ -9,6 +10,8 @@ import org.testng.annotations.Test;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 
 public class CompodContentShareTest extends BaseConfiguration{
 
@@ -39,6 +42,9 @@ public class CompodContentShareTest extends BaseConfiguration{
 			}
 
 
+			androidScroll();
+				
+				
 			waitExcplicit(1,"com.whatsapp:id/contactpicker_row_name");
 			List<MobileElement> chats = androidDriver.findElementsById("com.whatsapp:id/contactpicker_row_name");
 
@@ -67,4 +73,41 @@ public class CompodContentShareTest extends BaseConfiguration{
 
 	}
 
+	public void androidScroll() {
+
+		TouchAction t = new TouchAction<>(androidDriver);
+
+		Dimension dim = androidDriver.manage().window().getSize();
+		int x = dim.getWidth()/2;
+		int startY = (int) (dim.getHeight() *0.8);
+		int endY = (int) (dim.getHeight()*0.2);
+
+		t.press(PointOption.point(x, startY))
+		.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+		.moveTo(PointOption.point(x,endY))
+		.release()
+		.perform();
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
