@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 
-public class CompodContentShareTest extends BaseConfiguraion{
+public class CompodContentShareTest extends BaseConfiguration{
 
 	@Test
 	public void contentShare() {
@@ -25,11 +25,20 @@ public class CompodContentShareTest extends BaseConfiguraion{
 			listItems.get(2).click();
 			waitExcplicit(1, "com.cjnet.news:id/btn_share");
 			androidDriver.findElementById("com.cjnet.news:id/btn_share").click();
-			waitExcplicit(1, "android:id/icon");
+			waitExcplicit(1, "android:id/text1");
 			//androidDriver.findElementsByName("WhatsApp");
 
-			List<MobileElement> shareApps = androidDriver.findElementsById("android:id/icon");
-			shareApps.get(0).click();
+			List<MobileElement> shareApps = androidDriver.findElementsById("android:id/text1");
+
+			for(int i=0;i<shareApps.size();i++) {
+				System.out.println("ShareApps-->"+shareApps.get(i).getText());
+				if(shareApps.get(i).getText().equals("WhatsApp")) {
+					shareApps.get(i).click();
+					break;
+				}
+			}
+
+
 			waitExcplicit(1,"com.whatsapp:id/contactpicker_row_name");
 			List<MobileElement> chats = androidDriver.findElementsById("com.whatsapp:id/contactpicker_row_name");
 
@@ -37,7 +46,7 @@ public class CompodContentShareTest extends BaseConfiguraion{
 			for(int i=0;i<chats.size();i++) {
 
 				System.out.println("Chats->"+chats.get(i).getText());
-				if(chats.get(i).getText().equals("Family")) {
+				if(chats.get(i).getText().equals("Remya")) {
 					chats.get(i).click();
 				}
 			}
