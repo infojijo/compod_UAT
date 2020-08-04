@@ -33,6 +33,10 @@ public class CompodContentShareTest extends BaseConfiguration{
 
 			List<MobileElement> shareApps = androidDriver.findElementsById("android:id/text1");
 
+		
+			shareApps.get(1).click();
+
+			
 			for(int i=0;i<shareApps.size();i++) {
 				System.out.println("ShareApps-->"+shareApps.get(i).getText());
 				if(shareApps.get(i).getText().equals("WhatsApp")) {
@@ -40,30 +44,28 @@ public class CompodContentShareTest extends BaseConfiguration{
 					break;
 				}
 			}
-
-
-			androidScroll();
-				
+			
+			waitExcplicit(1, "android:id/button_once");
+			actionClick(1, "android:id/button_once");
+			
+			
 				
 			waitExcplicit(1,"com.whatsapp:id/contactpicker_row_name");
 			List<MobileElement> chats = androidDriver.findElementsById("com.whatsapp:id/contactpicker_row_name");
+			
 
+			List<MobileElement> namefound = androidDriver
+					.findElementsByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
+					+ "new UiSelector().text(\"Remya\"));");
+					namefound.get(0).click();
+					
 
-			for(int i=0;i<chats.size();i++) {
+		waitExcplicit(1, "com.whatsapp:id/send");
+		actionClick(1, "com.whatsapp:id/send");
+		System.out.println("Reached Here!");
 
-				System.out.println("Chats->"+chats.get(i).getText());
-				if(chats.get(i).getText().equals("Remya")) {
-					chats.get(i).click();
-				}
-			}
-
-			waitExcplicit(1, "com.whatsapp:id/send");
-			actionClick(1, "com.whatsapp:id/send");
-
-			System.out.println("Reached Here!");
-
-			waitExcplicit(1, "com.whatsapp:id/send");
-			actionClick(1, "com.whatsapp:id/send");
+		waitExcplicit(1, "com.whatsapp:id/send");
+		actionClick(1, "com.whatsapp:id/send");
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -73,21 +75,6 @@ public class CompodContentShareTest extends BaseConfiguration{
 
 	}
 
-	public void androidScroll() {
-
-		TouchAction t = new TouchAction<>(androidDriver);
-
-		Dimension dim = androidDriver.manage().window().getSize();
-		int x = dim.getWidth()/2;
-		int startY = (int) (dim.getHeight() *0.8);
-		int endY = (int) (dim.getHeight()*0.2);
-
-		t.press(PointOption.point(x, startY))
-		.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
-		.moveTo(PointOption.point(x,endY))
-		.release()
-		.perform();
-	}
 
 }
 
