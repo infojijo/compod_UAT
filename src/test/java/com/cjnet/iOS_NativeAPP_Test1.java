@@ -44,6 +44,13 @@ public WebDriverWait wait;
 		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("Attributes")));
 		  //iOSDriver.findElement(By.name("Attributes")).sendKeys("admin");
 		  iOSDriver.findElement(By.name("Attributes")).click();
+		  
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("aIdentifier")));
+		  
+		  iOSDriver.findElement(By.name("aIdentifier")).click();
+		  iOSDriver.findElement(By.name("aIdentifier")).sendKeys("iOS Automation");
+		  iOSDriver.findElement(By.name("Button")).click();
+		  
 
 		  		  
 		  
