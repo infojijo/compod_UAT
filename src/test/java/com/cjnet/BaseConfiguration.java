@@ -3,8 +3,10 @@ package com.cjnet;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -15,7 +17,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-public class BaseConfiguraion {
+public class BaseConfiguration {
 
 	public AndroidDriver<MobileElement> androidDriver;
 	public WebDriverWait wait;
@@ -40,5 +42,33 @@ public class BaseConfiguraion {
 		androidDriver.quit();
 	}
 
+	
+
+	public void waitExcplicit(int method, String path) {
+		switch(method){
+		case 1:{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(path))); 
+			break; 
+		}
+		case 2:{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(path))); 
+			break;
+			}
+		}
+	}
+
+	public void actionClick(int type, String path) {
+		switch(type) {
+		case 1: {
+			androidDriver.findElementById(path).click();
+			break;
+		}
+		case 2:{
+			androidDriver.findElementByXPath(path).click();
+			break;
+			}
+		}
+	}
+	
 	
 }

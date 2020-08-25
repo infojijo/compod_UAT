@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /*
  */
 
-public class CompodActionsTest extends BaseConfiguraion{
+public class CompodActionsTest extends BaseConfiguration{
 
 private String MARK = "MARK";
 private String MARKED = "MARKED AS READ";
@@ -38,8 +38,11 @@ private String MARKED = "MARKED AS READ";
 			waitExcplicit(1,"com.cjnet.news:id/imgGrid");
 			System.out.println("items here->"+gridItems.size());
 			gridItems.get(2).click();	
+			
 			waitExcplicit(1, "com.cjnet.news:id/textTitle");
-			actionClick(1, "com.cjnet.news:id/textTitle");
+			List<MobileElement> listItems = androidDriver.findElementsById("com.cjnet.news:id/textTitle");		
+			listItems.get(2).click();
+			//actionClick(1, "com.cjnet.news:id/textTitle");
 			waitExcplicit(1, "com.cjnet.news:id/btn_mark_as_read");
 			String first = androidDriver.findElementById("com.cjnet.news:id/btn_mark_as_read").getText();
 			System.out.println(first);
@@ -66,30 +69,5 @@ private String MARKED = "MARKED AS READ";
 	}
 
 
-	public void waitExcplicit(int method, String path) {
-		switch(method){
-		case 1:{
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(path))); 
-			break; 
-		}
-		case 2:{
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(path))); 
-			break;
-			}
-		}
-	}
-
-	public void actionClick(int type, String path) {
-		switch(type) {
-		case 1: {
-			androidDriver.findElementById(path).click();
-			break;
-		}
-		case 2:{
-			androidDriver.findElementByXPath(path).click();
-			break;
-			}
-		}
-	}
 
 }

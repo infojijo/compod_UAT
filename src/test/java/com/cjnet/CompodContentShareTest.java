@@ -3,6 +3,7 @@ package com.cjnet;
 import java.time.Duration;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
@@ -53,12 +54,14 @@ public class CompodContentShareTest extends BaseConfiguration{
 			waitExcplicit(1,"com.whatsapp:id/contactpicker_row_name");
 			List<MobileElement> chats = androidDriver.findElementsById("com.whatsapp:id/contactpicker_row_name");
 			
-
+			if(androidDriver.findElement(By.id("com.whatsapp:id/contactpicker_row_name")).isDisplayed()) {
+				
 			List<MobileElement> namefound = androidDriver
 					.findElementsByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
 					+ "new UiSelector().text(\"Remya\"));");
 					namefound.get(0).click();
-					
+			}
+	
 
 		waitExcplicit(1, "com.whatsapp:id/send");
 		actionClick(1, "com.whatsapp:id/send");

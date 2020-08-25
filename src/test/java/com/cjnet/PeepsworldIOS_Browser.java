@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 
-public class PeepsworldIOS {
+public class PeepsworldIOS_Browser {
 	
 	public WebDriverWait wait;
 	
